@@ -35,38 +35,6 @@
       ]
     },
     {
-      "id": "2",
-      "title": "iPhone X",
-      "description": "SIM-free Model A19211 6.5-inch Super Retina HD display",
-      "price": 899,
-      "discountPercentage": 17.94,
-      "rating": 4.44,
-      "stock": 3,
-      "brand": "Apple",
-      "category": "smartphones",
-      "thumbnail": "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=300&h=300&fit=crop",
-      "images": [
-        "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=600&h=400&fit=crop"
-      ]
-    },
-    {
-      "id": "3",
-      "title": "Samsung Universe 9",
-      "description": "Samsung's new variant which goes beyond Galaxy",
-      "price": 1249,
-      "discountPercentage": 15.46,
-      "rating": 4.09,
-      "stock": 0,
-      "brand": "Samsung",
-      "category": "smartphones",
-      "thumbnail": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=300&h=300&fit=crop",
-      "images": [
-        "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=400&fit=crop"
-      ]
-    },
-    {
       "id": "4",
       "title": "OPPOF19",
       "description": "OPPO F19 is officially announced on April 2021",
@@ -341,15 +309,15 @@
   ],
   "cart": [
     {
-      "productId": "2",
-      "quantity": 1,
-      "id": "3G-nmKW_hAI"
+      "productId": "1",
+      "quantity": 6,
+      "id": "QgoO_7wPzRQ"
     }
   ],
   "favorites": [
     {
-      "productId": "2",
-      "id": "QWC42nEJEV4"
+      "productId": "1",
+      "id": "ZwplLvggg6E"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

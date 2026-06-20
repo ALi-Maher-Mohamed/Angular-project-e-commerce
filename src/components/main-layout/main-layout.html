@@ -14,12 +14,19 @@
   }
 
   <nav class="navbar">
-    <a routerLink="/products" class="logo">Ali Maher Store</a>
+    <a routerLink="/products" class="logo">
+      <span class="logo-mark">AM</span>
+      <span>Ali Maher Store</span>
+    </a>
     <div class="nav-links">
       @if (isLoggedIn) {
       <a routerLink="/products">Products</a>
-      <a routerLink="/cart">Cart ({{ cartCount() }})</a>
-      <a routerLink="/favorites">Favorites ({{ favoritesCount() }})</a>
+      <a routerLink="/cart" class="nav-cart" aria-label="Cart">
+        <span class="cart-icon" aria-hidden="true"></span>
+        <span>Cart</span>
+        <span class="nav-count">{{ cartCount() }}</span>
+      </a>
+      <a routerLink="/favorites">Favorites <span class="nav-count">{{ favoritesCount() }}</span></a>
       <a routerLink="/add-product">Add Product</a>
       <button type="button" class="btn-dark" (click)="toggleDark()">
         {{ isDark ? 'Light Mode' : 'Dark Mode' }}

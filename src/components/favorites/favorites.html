@@ -12,10 +12,14 @@
     <div class="favorites-grid">
         @for (product of favoriteProducts(); track product?.id) {
         <div class="favorite-card">
-            <h3>{{ product?.title }}</h3>
-            <p>${{ product?.price }}</p>
-            <a [routerLink]="['/product', product?.id]" class="btn-details">Details</a>
-            <button type="button" class="btn-remove" (click)="onRemoveFavorite(product?.id!)">Remove</button>
+            <div>
+                <h3>{{ product?.title }}</h3>
+                <p>${{ product?.price }}</p>
+            </div>
+            <div class="favorite-actions">
+                <a [routerLink]="['/product', product?.id]" class="btn-details">Details</a>
+                <button type="button" class="btn-remove" (click)="onRemoveFavorite(product?.id!)">Remove</button>
+            </div>
         </div>
         }
     </div>

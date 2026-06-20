@@ -1,67 +1,126 @@
 .form-container {
-  max-width: 500px;
+  width: min(100%, 720px);
   margin: 0 auto;
+  padding: clamp(24px, 5vw, 40px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .form-container h2 {
-  margin-bottom: 20px;
+  margin: 0 0 28px;
+  color: var(--color-text);
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.1;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
 }
 
 label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-weight: 500;
+  display: grid;
+  gap: 8px;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+label:has(textarea),
+label:has(input[name='thumbnail']) {
+  grid-column: 1 / -1;
 }
 
 input,
 textarea {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 15px;
+}
+
+textarea {
+  min-height: 132px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+  outline: none;
 }
 
 .form-actions {
+  grid-column: 1 / -1;
   display: flex;
+  align-items: center;
   gap: 12px;
   margin-top: 8px;
 }
 
+button,
+.form-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  text-decoration: none;
+}
+
 button {
-  padding: 10px 20px;
-  background: #2ecc71;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
+  border: 0;
+  background: var(--color-accent);
+  color: #ffffff;
   cursor: pointer;
-  font-weight: 600;
+  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.2);
+}
+
+button:hover:not(:disabled) {
+  background: var(--color-accent-strong);
+  transform: translateY(-1px);
 }
 
 button:disabled {
-  background: #bdc3c7;
+  background: #cbd5e1;
+  box-shadow: none;
   cursor: not-allowed;
 }
 
 .form-actions a {
-  padding: 10px 20px;
-  color: #3498db;
-  text-decoration: none;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-primary);
 }
 
-:host-context(.dark) .form-container h2 {
-  color: #e0e0e0;
+.form-actions a:hover {
+  border-color: rgba(79, 70, 229, 0.34);
+  color: var(--color-accent);
 }
 
-:host-context(.dark) input,
-:host-context(.dark) textarea {
-  background: #16213e;
-  color: #e0e0e0;
-  border-color: #333;
+@media (max-width: 680px) {
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  label:has(textarea),
+  label:has(input[name='thumbnail']),
+  .form-actions {
+    grid-column: auto;
+  }
+
+  .form-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
 }

@@ -9,8 +9,10 @@
     </div>
 
     <div class="card-body">
-        <h5 class="card-title">{{ product.title }}</h5>
-        <p class="card-price">${{ product.price }}</p>
+        <div class="card-heading">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-price">${{ product.price }}</p>
+        </div>
 
         @if (isOutOfStock) {
         <p class="stock-status out-of-stock-text">Out Of Stock</p>
