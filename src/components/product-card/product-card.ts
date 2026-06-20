@@ -1,13 +1,12 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, signal } from '@angular/core';
 import { Product } from '../../models/product';
 import { ShortDescriptionPipe } from '../../pipes/short-description.pipe';
-import { ImageZoomDirective } from '../../directives/image-zoom.directive';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [ShortDescriptionPipe, ImageZoomDirective, RouterLink],
+  imports: [ShortDescriptionPipe, RouterLink],
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,13 +16,19 @@ export class ProductCard {
   @Input() isFavorited = false;
   @Input() isInCart = false;
   @Output() addToCart = new EventEmitter<{ product: Product; quantity: number }>();
+  @Output() removeFromCart = new EventEmitter<number>();
   @Output() toggleFavorite = new EventEmitter<void>();
   @Output() delete = new EventEmitter<number>();
 
   showFullDescription = signal(false);
   quantity = signal(1);
 
-  onAddToCart(): void {
+  onCartClick(): void {
+    if (this.isInCart) {
+      this.removeFromCart.emit(this.product.id);
+      return;
+    }
+
     if (this.quantity() > 0 && this.quantity() <= this.product.stock) {
       this.addToCart.emit({ product: this.product, quantity: this.quantity() });
       this.quantity.set(1);
@@ -51,6 +56,6 @@ export class ProductCard {
   }
 
   get canAddToCart(): boolean {
-    return !this.isOutOfStock && this.quantity() <= this.product.stock;
+    return this.isInCart || (!this.isOutOfStock && this.quantity() <= this.product.stock);
   }
 }

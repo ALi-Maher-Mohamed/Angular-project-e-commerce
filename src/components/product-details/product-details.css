@@ -47,7 +47,6 @@
 .details-image img {
   max-height: 430px;
   object-fit: contain;
-  cursor: zoom-in;
 }
 
 .details-info {

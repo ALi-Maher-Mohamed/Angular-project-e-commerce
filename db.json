@@ -309,15 +309,32 @@
   ],
   "cart": [
     {
-      "productId": "1",
-      "quantity": 6,
-      "id": "QgoO_7wPzRQ"
+      "productId": "5",
+      "quantity": 1,
+      "id": "QmRJ7_JjEes"
+    },
+    {
+      "productId": "4",
+      "quantity": 1,
+      "id": "HICr_Y5EM3w"
     }
   ],
   "favorites": [
     {
       "productId": "1",
       "id": "ZwplLvggg6E"
+    },
+    {
+      "productId": "4",
+      "id": "7TdXJIbsNqU"
+    },
+    {
+      "productId": "5",
+      "id": "Nc-xS-dhkKQ"
+    },
+    {
+      "productId": "6",
+      "id": "RF7u17R_G2k"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

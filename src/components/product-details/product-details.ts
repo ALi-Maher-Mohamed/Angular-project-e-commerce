@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Product } from '../../models/product';
-import { ImageZoomDirective } from '../../directives/image-zoom.directive';
 import { CartService } from '../../services/cart.service';
 import { FavoriteService } from '../../services/favorite.service';
 import { ProductService } from '../../services/product.service';
@@ -9,7 +8,7 @@ import { ProductService } from '../../services/product.service';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [RouterLink, ImageZoomDirective],
+  imports: [RouterLink],
   templateUrl: './product-details.html',
   styleUrl: './product-details.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

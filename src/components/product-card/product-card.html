@@ -1,11 +1,12 @@
 <div class="product-card" [class.out-of-stock]="isOutOfStock" [class.favorited]="isFavorited"
     [class.in-cart]="isInCart">
-    @if (isFavorited) {
-    <span class="favorite-badge">♥</span>
-    }
+    <button type="button" class="favorite-badge" [class.active]="isFavorited" (click)="toggleFavorite.emit()"
+        [attr.aria-label]="isFavorited ? 'Remove from favorites' : 'Add to favorites'">
+        ♥
+    </button>
 
     <div class="card-image-wrapper">
-        <img [src]="product.thumbnail" [alt]="product.title" class="card-img" appImageZoom />
+        <img [src]="product.thumbnail" [alt]="product.title" class="card-img" />
     </div>
 
     <div class="card-body">
@@ -37,14 +38,9 @@
             {{ showFullDescription() ? 'Show Less' : 'See All Description' }}
         </button>
 
-        @defer (on interaction) {
         <div class="card-actions">
-            <button class="btn-cart" [disabled]="!canAddToCart" (click)="onAddToCart()">
-                {{ isInCart ? 'In Cart' : 'Add to Cart' }}
-            </button>
-
-            <button type="button" class="btn-favorite" (click)="toggleFavorite.emit()">
-                {{ isFavorited ? 'Unfavorite' : 'Favorite' }}
+            <button class="btn-cart" [class.in-cart]="isInCart" [disabled]="!canAddToCart" (click)="onCartClick()">
+                {{ isInCart ? 'Remove from Cart' : 'Add to Cart' }}
             </button>
 
             <a [routerLink]="['/product', product.id]" class="btn-details">
@@ -55,10 +51,5 @@
                 Delete
             </button>
         </div>
-        } @placeholder {
-        <div class="card-actions-placeholder">
-            <span>Click to show actions</span>
-        </div>
-        }
     </div>
 </div>

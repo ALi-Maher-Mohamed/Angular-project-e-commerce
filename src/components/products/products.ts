@@ -57,6 +57,10 @@ export class Products {
     this.cartService.addToCart(event.product.id, event.quantity).subscribe();
   }
 
+  onRemoveFromCart(productId: number): void {
+    this.cartService.removeByProductId(productId).subscribe();
+  }
+
   onToggleFavorite(product: Product): void {
     this.favoriteService.toggleFavorite(product.id).subscribe();
   }
