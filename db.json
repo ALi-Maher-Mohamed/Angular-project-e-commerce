@@ -9,6 +9,11 @@
       "username": "khaled Maher",
       "password": "000000",
       "id": "XGpt-0bZQvA"
+    },
+    {
+      "username": "amr",
+      "password": "123456Aa",
+      "id": "eD2Uy5pxwUM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

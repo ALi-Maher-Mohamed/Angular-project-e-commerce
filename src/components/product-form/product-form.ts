@@ -36,13 +36,14 @@ export class ProductForm {
   onSubmit(form: NgForm): void {
     if (form.invalid) return;
 
-    if (this.isEdit) {
-      this.productService.update(this.product);
-    } else {
-      this.productService.add(this.product);
-    }
+    const request = this.isEdit
+      ? this.productService.update(this.product)
+      : this.productService.add(this.product);
 
-    this.router.navigate(['/products']);
+    request.subscribe({
+      next: () => this.router.navigate(['/products']),
+      error: (error) => console.error('Failed to save product', error),
+    });
   }
 
   private emptyProduct(): Product {

@@ -21,15 +21,21 @@ export class ProductDetails {
     private productService: ProductService,
   ) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.product = this.productService.getById(id) ?? null;
-    if (!this.product) {
-      this.router.navigate(['/error']);
-    }
+    this.productService.fetchById(id).subscribe({
+      next: (product) => {
+        this.product = product;
+      },
+      error: () => {
+        this.router.navigate(['/error']);
+      },
+    });
   }
 
   onDelete(): void {
     if (!this.product) return;
-    this.productService.delete(this.product.id);
-    this.router.navigate(['/products']);
+    this.productService.delete(this.product.id).subscribe({
+      next: () => this.router.navigate(['/products']),
+      error: (error) => console.error('Failed to delete product', error),
+    });
   }
 }
