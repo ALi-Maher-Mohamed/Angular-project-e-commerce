@@ -1,0 +1,34 @@
+<div class="cart-container">
+    <div class="cart-header">
+        <h2>Shopping Cart</h2>
+        <a routerLink="/products" class="link-button">Back to Products</a>
+    </div>
+
+    @if (cartItems().length === 0) {
+    <div class="empty-state">
+        <p>Your cart is empty.</p>
+    </div>
+    } @else {
+    <div class="cart-list">
+        @for (item of cartItems(); track item.id) {
+        <div class="cart-item">
+            <div>
+                <h3>{{ products().find((p) => p.id === item.productId)?.title || 'Product' }}</h3>
+                <p>Quantity: <input type="number" [value]="item.quantity" min="1"
+                        (change)="onQuantityChange(item.id, $event.target.valueAsNumber)" /></p>
+            </div>
+            <div class="cart-actions">
+                <p>
+                    ${{ (products().find((p) => p.id === item.productId)?.price ?? 0) * item.quantity }}
+                </p>
+                <button type="button" class="btn-remove" (click)="onRemove(item.id)">Remove</button>
+            </div>
+        </div>
+        }
+    </div>
+
+    <div class="cart-summary">
+        <h3>Total: ${{ totalPrice() }}</h3>
+    </div>
+    }
+</div>

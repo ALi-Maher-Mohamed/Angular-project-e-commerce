@@ -1,6 +1,7 @@
-<div class="product-card" [class.out-of-stock]="isOutOfStock" [class.bought]="isBought">
-    @if (isBought) {
-    <span class="bought-badge">Bought</span>
+<div class="product-card" [class.out-of-stock]="isOutOfStock" [class.favorited]="isFavorited"
+    [class.in-cart]="isInCart">
+    @if (isFavorited) {
+    <span class="favorite-badge">♥</span>
     }
 
     <div class="card-image-wrapper">
@@ -36,8 +37,12 @@
 
         @defer (on interaction) {
         <div class="card-actions">
-            <button class="btn-buy" [disabled]="!canBuy" (click)="onBuy()">
-                Buy {{ quantity() > 1 ? '(' + quantity() + ')' : '' }}
+            <button class="btn-cart" [disabled]="!canAddToCart" (click)="onAddToCart()">
+                {{ isInCart ? 'In Cart' : 'Add to Cart' }}
+            </button>
+
+            <button type="button" class="btn-favorite" (click)="toggleFavorite.emit()">
+                {{ isFavorited ? 'Unfavorite' : 'Favorite' }}
             </button>
 
             <a [routerLink]="['/product', product.id]" class="btn-details">

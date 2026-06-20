@@ -1,0 +1,23 @@
+<div class="favorites-container">
+    <div class="favorites-header">
+        <h2>Favorites</h2>
+        <a routerLink="/products" class="link-button">Back to Products</a>
+    </div>
+
+    @if (favoriteProducts().length === 0) {
+    <div class="empty-state">
+        <p>You have no favorite products yet.</p>
+    </div>
+    } @else {
+    <div class="favorites-grid">
+        @for (product of favoriteProducts(); track product?.id) {
+        <div class="favorite-card">
+            <h3>{{ product?.title }}</h3>
+            <p>${{ product?.price }}</p>
+            <a [routerLink]="['/product', product?.id]" class="btn-details">Details</a>
+            <button type="button" class="btn-remove" (click)="onRemoveFavorite(product?.id!)">Remove</button>
+        </div>
+        }
+    </div>
+    }
+</div>

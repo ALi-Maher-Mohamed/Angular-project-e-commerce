@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductCard } from '../product-card/product-card';
 import { FormsModule } from '@angular/forms';
@@ -71,5 +71,7 @@ export class Products {
 
   onDelete(id: number): void {
     this.productService.delete(id).subscribe();
+    this.cartService.removeByProductId(id).subscribe();
+    this.favoriteService.removeByProductId(id).subscribe();
   }
 }

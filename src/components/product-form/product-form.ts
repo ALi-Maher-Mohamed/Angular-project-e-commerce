@@ -24,12 +24,14 @@ export class ProductForm {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEdit = true;
-      const found = this.productService.getById(Number(id));
-      if (!found) {
-        this.router.navigate(['/error']);
-        return;
-      }
-      this.product = { ...found };
+      this.productService.fetchById(Number(id)).subscribe({
+        next: (product) => {
+          this.product = { ...product };
+        },
+        error: () => {
+          this.router.navigate(['/error']);
+        },
+      });
     }
   }
 

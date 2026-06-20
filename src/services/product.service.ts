@@ -15,7 +15,7 @@ export class ProductService {
 
   constructor(private http: HttpClient) {
     this.loadProducts().subscribe({
-      next: () => {},
+      next: () => { },
       error: (error) => console.error('Failed to load products', error),
     });
   }
