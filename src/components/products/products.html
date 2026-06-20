@@ -1,0 +1,52 @@
+<div class="products-container">
+    <div class="products-header">
+        <h2>Products</h2>
+        <span class="product-count">{{ filteredProducts().length }} product(s)</span>
+    </div>
+
+    <div class="products-layout">
+        <aside class="sidebar">
+            <h3>Filters</h3>
+
+            <div class="filter-section">
+                <h4>Category</h4>
+                <ul class="category-list">
+                    <li [class.active]="selectedCategory() === 'All'" (click)="filterByCategory('All')">
+                        All
+                    </li>
+                    @for (cat of categories(); track cat) {
+                    <li [class.active]="selectedCategory() === cat" (click)="filterByCategory(cat)">
+                        {{ cat }}
+                    </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="filter-section">
+                <h4>Price</h4>
+                <select class="sort-select" [ngModel]="sortOrder()" (ngModelChange)="sortOrder.set($event)">
+                    <option value="none">Default</option>
+                    <option value="low">Low to High</option>
+                    <option value="high">High to Low</option>
+                </select>
+            </div>
+        </aside>
+
+        <div class="products-grid">
+            @for (product of filteredProducts(); track product.id) {
+            <app-product-card [product]="product" [isBought]="isBought(product.id)"
+                (buy)="onBuy($event)" (delete)="onDelete($event)"></app-product-card>
+            }
+        </div>
+    </div>
+
+    @defer (on interaction) {
+    <div class="total-price-bar">
+        <h3>Total Price: ${{ totalPrice() }}</h3>
+    </div>
+    } @placeholder {
+    <div class="total-price-placeholder" (click)="showTotal.set(true)">
+        <span>Click to show total price</span>
+    </div>
+    }
+</div>

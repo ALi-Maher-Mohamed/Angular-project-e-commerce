@@ -1,0 +1,42 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Sign Up</h2>
+
+    @if (errorMessage(); as msg) {
+    <div class="alert" [class.alert-error]="errorType() === 'error'" [class.alert-success]="errorType() === 'success'">
+      {{ msg }}
+      <button class="alert-close" (click)="clearMessage()">&times;</button>
+    </div>
+    }
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" formControlName="username" placeholder="Enter username" (focus)="clearMessage()" />
+        @if (signupForm.get('username')?.invalid && signupForm.get('username')?.touched) {
+          <small class="error">Username is required</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" placeholder="Enter password" (focus)="clearMessage()" />
+        @if (signupForm.get('password')?.invalid && signupForm.get('password')?.touched) {
+          <small class="error">Password must be at least 3 characters</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="Confirm password" (focus)="clearMessage()" />
+        @if (signupForm.errors?.['passwordMismatch'] && signupForm.get('confirmPassword')?.touched) {
+          <small class="error">Passwords do not match</small>
+        }
+      </div>
+
+      <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+    </form>
+
+    <p class="auth-link">Already have an account? <a routerLink="/login">Login</a></p>
+  </div>
+</div>

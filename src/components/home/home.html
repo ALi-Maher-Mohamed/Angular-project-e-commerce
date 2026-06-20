@@ -1,0 +1,15 @@
+<div class="card">
+  <!-- <img src="{{store.img}}" class="card-img-top" alt="..." height="300"> -->
+  @if (isAppear) {
+    <img [src]="store.img" class="card-img-top" alt="..." height="300" />
+  }
+  <div class="card-body">
+    <h5 class="card-title">Title : {{ store.title }}</h5>
+    @for (b of store.branches; track $index) {
+      <p class="card-text">{{ $index + 1 }}-{{ b }}</p>
+    } @empty {
+      <h1>Branches not available</h1>
+    }
+    <button class="btn btn-primary" (click)="toggleImg()">{{ isAppear ? 'Hide' : 'Show' }}</button>
+  </div>
+</div>

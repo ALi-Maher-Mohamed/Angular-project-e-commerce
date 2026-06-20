@@ -1,0 +1,57 @@
+<div class="product-card" [class.out-of-stock]="isOutOfStock" [class.bought]="isBought">
+    @if (isBought) {
+    <span class="bought-badge">Bought</span>
+    }
+
+    <div class="card-image-wrapper">
+        <img [src]="product.thumbnail" [alt]="product.title" class="card-img" appImageZoom />
+    </div>
+
+    <div class="card-body">
+        <h5 class="card-title">{{ product.title }}</h5>
+        <p class="card-price">${{ product.price }}</p>
+
+        @if (isOutOfStock) {
+        <p class="stock-status out-of-stock-text">Out Of Stock</p>
+        } @else {
+        <p class="stock-status in-stock-text">In Stock ({{ product.stock }})</p>
+        <div class="quantity-controls">
+            <button class="qty-btn" (click)="decrement()" [disabled]="quantity() <= 1">-</button>
+            <span class="qty-value">{{ quantity() }}</span>
+            <button class="qty-btn" (click)="increment()" [disabled]="quantity() >= product.stock">+</button>
+        </div>
+        }
+
+        <p class="card-description">
+            @if (showFullDescription()) {
+            {{ product.description }}
+            } @else {
+            {{ product.description | shortDescription }}
+            }
+        </p>
+
+        <button class="btn-toggle-desc" (click)="toggleDescription()">
+            {{ showFullDescription() ? 'Show Less' : 'See All Description' }}
+        </button>
+
+        @defer (on interaction) {
+        <div class="card-actions">
+            <button class="btn-buy" [disabled]="!canBuy" (click)="onBuy()">
+                Buy {{ quantity() > 1 ? '(' + quantity() + ')' : '' }}
+            </button>
+
+            <a [routerLink]="['/product', product.id]" class="btn-details">
+                Details
+            </a>
+
+            <button type="button" class="btn-delete" (click)="delete.emit(product.id)">
+                Delete
+            </button>
+        </div>
+        } @placeholder {
+        <div class="card-actions-placeholder">
+            <span>Click to show actions</span>
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="form-container">
+  <h2>{{ isEdit ? 'Edit Product (PUT)' : 'Add Product (POST)' }}</h2>
+
+  <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
+    <label>
+      Title
+      <input name="title" [(ngModel)]="product.title" required />
+    </label>
+
+    <label>
+      Description
+      <textarea name="description" [(ngModel)]="product.description" required></textarea>
+    </label>
+
+    <label>
+      Price
+      <input name="price" type="number" [(ngModel)]="product.price" required min="0" />
+    </label>
+
+    <label>
+      Stock
+      <input name="stock" type="number" [(ngModel)]="product.stock" required min="0" />
+    </label>
+
+    <label>
+      Brand
+      <input name="brand" [(ngModel)]="product.brand" required />
+    </label>
+
+    <label>
+      Category
+      <input name="category" [(ngModel)]="product.category" required />
+    </label>
+
+    <label>
+      Thumbnail URL
+      <input name="thumbnail" [(ngModel)]="product.thumbnail" required />
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="productForm.invalid">
+        {{ isEdit ? 'Update' : 'Create' }}
+      </button>
+      <a routerLink="/products">Cancel</a>
+    </div>
+  </form>
+</div>

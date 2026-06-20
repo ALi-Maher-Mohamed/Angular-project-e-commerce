@@ -1,0 +1,52 @@
+<div class="details-container">
+    @if (product) {
+    <a routerLink="/products" class="btn-back">Back to Products</a>
+
+    <div class="details-content">
+        <div class="details-image">
+            <img [src]="product.thumbnail" [alt]="product.title" appImageZoom />
+        </div>
+
+        <div class="details-info">
+            <h1>{{ product.title }}</h1>
+            <p class="details-brand">Brand: {{ product.brand }}</p>
+            <p class="details-category">Category: {{ product.category }}</p>
+            <p class="details-price">${{ product.price }}</p>
+
+            @if (product.stock === 0) {
+            <p class="details-stock out-of-stock">Out Of Stock</p>
+            } @else {
+            <p class="details-stock in-stock">In Stock ({{ product.stock }})</p>
+            }
+
+            <p class="details-description">{{ product.description }}</p>
+
+            <div class="details-rating">
+                <span>Rating: {{ product.rating }} / 5</span>
+            </div>
+
+            @if (product.images.length > 0) {
+            @defer (on interaction) {
+            <div class="details-gallery">
+                <h3>Gallery</h3>
+                <div class="gallery-images">
+                    @for (img of product.images; track $index) {
+                    <img [src]="img" [alt]="product.title + ' image ' + ($index + 1)" />
+                    }
+                </div>
+            </div>
+            } @placeholder {
+            <div class="gallery-placeholder">
+                <span>Click to load gallery images</span>
+            </div>
+            }
+            }
+
+            <div class="details-actions">
+                <a [routerLink]="['/edit-product', product.id]" class="btn-edit">Edit</a>
+                <button type="button" class="btn-delete" (click)="onDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>

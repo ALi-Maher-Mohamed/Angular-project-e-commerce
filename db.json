@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "username": "Ali Maher",
+      "password": "000000",
+      "id": "QwDTHSEI7D8"
+    },
+    {
+      "username": "khaled Maher",
+      "password": "000000",
+      "id": "XGpt-0bZQvA"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
