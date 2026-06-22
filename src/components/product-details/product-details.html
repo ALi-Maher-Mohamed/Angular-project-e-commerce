@@ -1,6 +1,6 @@
 <div class="details-container">
     @if (product) {
-    <a routerLink="/products" class="btn-back">Back to Products</a>
+    <a [routerLink]="backLink" class="btn-back">Back to Products</a>
 
     <div class="details-content">
         <div class="details-image">
@@ -9,21 +9,46 @@
 
         <div class="details-info">
             <h1>{{ product.title }}</h1>
-            <p class="details-brand">Brand: {{ product.brand }}</p>
-            <p class="details-category">Category: {{ product.category }}</p>
+            <div class="details-meta">
+                <p class="details-brand">Brand: {{ product.brand }}</p>
+                <p class="details-category">Category: {{ product.category }}</p>
+            </div>
             <p class="details-price">${{ product.price }}</p>
+
+            @if (product.discountPercentage > 0) {
+            <p class="details-discount">{{ product.discountPercentage }}% OFF</p>
+            }
 
             @if (product.stock === 0) {
             <p class="details-stock out-of-stock">Out Of Stock</p>
             } @else {
-            <p class="details-stock in-stock">In Stock ({{ product.stock }})</p>
+            <p class="details-stock in-stock">In Stock ({{ product.stock }} available)</p>
             }
 
             <p class="details-description">{{ product.description }}</p>
 
             <div class="details-rating">
-                <span>Rating: {{ product.rating }} / 5</span>
+                <span class="stars">★</span>
+                <span>{{ product.rating }} / 5</span>
             </div>
+
+            @if (!authService.isAdmin) {
+            <div class="details-actions">
+                <button type="button" class="btn-favorite" [class.active]="isFavorited" (click)="onToggleFavorite()">
+                    {{ isFavorited ? '♥ Favorited' : '♡ Add to Favorites' }}
+                </button>
+            </div>
+            }
+
+            @if (authService.isAdmin) {
+            <div class="admin-actions">
+                <h3>Admin Actions</h3>
+                <div class="admin-buttons">
+                    <a [routerLink]="editLink" class="btn-edit">Edit Product</a>
+                    <button type="button" class="btn-delete" (click)="onDelete()">Delete Product</button>
+                </div>
+            </div>
+            }
 
             @if (product.images.length > 0) {
             @defer (on interaction) {
@@ -41,11 +66,6 @@
             </div>
             }
             }
-
-            <div class="details-actions">
-                <a [routerLink]="['/edit-product', product.id]" class="btn-edit">Edit</a>
-                <button type="button" class="btn-delete" (click)="onDelete()">Delete</button>
-            </div>
         </div>
     </div>
     }

@@ -13,13 +13,13 @@
         @for (item of cartItems(); track item.id) {
         <div class="cart-item">
             <div>
-                <h3>{{ products().find((p) => p.id === item.productId)?.title || 'Product' }}</h3>
+                <h3>{{ getProduct(item.productId)?.title || 'Product' }}</h3>
                 <p>Quantity: <input type="number" [value]="item.quantity" min="1"
                         (change)="onQuantityChange(item.id, $event.target.valueAsNumber)" /></p>
             </div>
             <div class="cart-actions">
                 <p>
-                    ${{ (products().find((p) => p.id === item.productId)?.price ?? 0) * item.quantity }}
+                    ${{ (getProduct(item.productId)?.price ?? 0) * item.quantity }}
                 </p>
                 <button type="button" class="btn-remove" (click)="onRemove(item.id)">Remove</button>
             </div>

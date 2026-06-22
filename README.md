@@ -1,59 +1,217 @@
-# Demo
+# TechVault - E-Commerce Angular Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+A full-featured e-commerce application built with Angular 21, MongoDB, and Express.js.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- **Product Catalog** - Browse products with filtering by category and sorting by price
+- **Product Details** - View detailed product information with image gallery
+- **Shopping Cart** - Add/remove products, update quantities (persisted in MongoDB)
+- **Favorites** - Save and manage favorite products (persisted in MongoDB)
+- **User Authentication** - JWT-based login and signup with role selection
+- **Admin Dashboard** - Product management with CRUD operations (Admin-only)
+- **Dark/Light Mode** - Theme toggle with high-contrast dark mode
+- **Role-Based Access** - Admin and Customer roles with route guards
+- **Responsive Design** - Mobile-friendly UI with Bootstrap 5
 
-```bash
-ng serve
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Angular 21.1, TypeScript 5.9 |
+| UI Framework | Bootstrap 5.3 |
+| Backend | Express.js 4.21 |
+| Database | MongoDB 8 (via Mongoose 8.5) |
+| Authentication | JWT (jsonwebtoken 9.0) |
+| Testing | Vitest 4.0 |
+
+## Prerequisites
+
+- **Node.js** v18 or higher
+- **npm** v9 or higher
+- **MongoDB** running locally on port 27017 (or update `.env`)
+
+## Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+MONGODB_URI=mongodb://localhost:27017/techvault
+JWT_SECRET=your-secret-key
+JWT_EXPIRES_IN=1h
+PORT=3000
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Project Structure
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+├── server/                         # Express.js backend
+│   ├── index.js                    # Server entry point (port 3000)
+│   ├── seed.js                     # Database seed script
+│   ├── middleware/
+│   │   └── auth.js                 # JWT verification + adminOnly middleware
+│   ├── models/
+│   │   ├── User.js                 # Mongoose User schema (username, password, role)
+│   │   ├── Product.js              # Mongoose Product schema
+│   │   ├── Cart.js                 # Mongoose Cart schema
+│   │   └── Favorite.js             # Mongoose Favorite   schema
+│   └── routes/
+│       ├── auth.js                 # POST /auth/login, POST /auth/signup
+│       ├── products.js             # GET/POST/PUT/DELETE /products
+│       ├── cart.js                 # GET/POST/PUT/DELETE /cart
+│       └── favorites.js            # GET/POST/DELETE /favorites
+│
+├── src/                            # Angular frontend
+│   ├── app/
+│   │   ├── app.routes.ts           # Main route configuration
+│   │   ├── app.config.ts           # App providers (interceptors)
+│   │   ├── admin.routes.ts         # Admin-only routes
+│   │   └── customer.routes.ts      # Customer routes
+│   ├── components/
+│   │   ├── admin-dashboard/        # Admin product management
+│   │   ├── cart/                   # Shopping cart page
+│   │   ├── favorites/              # Favorites page
+│   │   ├── home/                   # Home/landing page
+│   │   ├── login/                  # Login form
+│   │   ├── signup/                 # Registration form
+│   │   ├── main-layout/            # Navbar + layout wrapper
+│   │   ├── product-card/           # Reusable product card
+│   │   ├── product-details/        # Single product view
+│   │   ├── product-form/           # Add/edit product form
+│   │   ├── products/               # Product listing with filters
+│   │   └── error/                  # Error page
+│   ├── services/
+│   │   ├── auth.service.ts         # JWT login, token management, role check
+│   │   ├── cart.service.ts         # Cart CRUD operations
+│   │   ├── favorite.service.ts     # Favorites CRUD operations
+│   │   ├── product.service.ts      # Product API calls
+│   │   ├── loading.service.ts      # Loading state management
+│   │   └── message.service.ts      # Toast notification service
+│   ├── models/
+│   │   ├── product.ts              # Product interface
+│   │   ├── user.ts                 # User interface
+│   │   ├── cart-item.ts            # CartItem interface
+│   │   └── favorite.ts             # Favorite interface
+│   ├── guards/
+│   │   ├── auth.guard.ts           # Requires valid JWT token
+│   │   └── admin.guard.ts          # Requires Admin role
+│   ├── interceptors/
+│   │   ├── auth.interceptor.ts     # Attaches Bearer token to requests
+│   │   ├── error.interceptor.ts    # Handles 401 auto-logout, shows errors
+│   │   └── loading.interceptor.ts  # Tracks loading state
+│   ├── directives/
+│   │   ├── image-zoom.directive.ts  # Image zoom on hover
+│   │   └── theme.directive.ts       # Dark/light mode toggle
+│   └── pipes/
+│       └── short-description.pipe.ts
+│
+├── .env                            # Environment variables (git-ignored)
+├── db.json                         # Legacy JSON Server data (no longer used as backend)
+└── package.json
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## How to Run
+
+### 1. Install Dependencies
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
+### 2. Start MongoDB
 
-To build the project run:
+Make sure MongoDB is running locally on port 27017:
 
 ```bash
-ng build
+# Windows (if installed as a service, it may already be running)
+net start MongoDB
+
+# macOS (Homebrew)
+brew services start mongodb-community
+
+# Linux
+sudo systemctl start mongod
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 3. Seed the Database
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Populate MongoDB with users and products from `db.json`:
 
 ```bash
-ng test
+npm run seed
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### 4. Start the Backend Server
 
 ```bash
-ng e2e
+npm run server
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The Express.js server starts on `http://localhost:3000`.
 
-## Additional Resources
+### 5. Start the Angular Dev Server
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+In a separate terminal:
+
+```bash
+npm run dev
+```
+
+The application opens automatically at `http://localhost:4200`.
+
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Angular dev server with auto-open |
+| `npm run server` | Start Express.js backend on port 3000 |
+| `npm run seed` | Seed MongoDB with initial data |
+| `npm start` | Start Angular dev server (no auto-open) |
+| `npm run build` | Build for production |
+| `npm run watch` | Build in watch mode |
+| `npm run test` | Run unit tests |
+
+## Default Accounts
+
+| Username | Password | Role |
+|----------|----------|------|
+| admin | admin123 | Admin |
+| Ali Maher | 000000 | Customer |
+| khaled Maher | 000000 | Customer |
+| amr | 123456Aa | Customer |
+
+## API Endpoints
+
+### Auth
+
+| Method | Endpoint | Body | Description |
+|--------|----------|------|-------------|
+| POST | `/auth/login` | `{ username, password }` | Returns `{ token, user }` |
+| POST | `/auth/signup` | `{ username, password, role }` | Creates new user |
+
+### Products
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/products` | No | List all products |
+| GET | `/products/:id` | No | Get product by ID |
+| POST | `/products` | Admin | Create product |
+| PUT | `/products/:id` | Admin | Update product |
+| DELETE | `/products/:id` | Admin | Delete product |
+
+### Cart
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/cart` | No | List all cart items |
+| POST | `/cart` | Yes | Add item `{ productId, quantity }` |
+| PUT | `/cart/:id` | Yes | Update item `{ productId, quantity }` |
+| DELETE | `/cart/:id` | Yes | Remove item |
+
+### Favorites
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/favorites` | No | List all favorites |
+| POST | `/favorites` | Yes | Add favorite `{ productId }` |
+| DELETE | `/favorites/:id` | Yes | Remove favorite |

@@ -1,7 +1,11 @@
 import { Routes } from '@angular/router';
 
-export const productRoutes: Routes = [
-  { path: '', redirectTo: 'products', pathMatch: 'full' },
+export const customerRoutes: Routes = [
+  {
+    path: '',
+    redirectTo: 'products',
+    pathMatch: 'full',
+  },
   {
     path: 'products',
     loadComponent: () => import('../components/products/products').then((m) => m.Products),
@@ -10,14 +14,6 @@ export const productRoutes: Routes = [
     path: 'product/:id',
     loadComponent: () =>
       import('../components/product-details/product-details').then((m) => m.ProductDetails),
-  },
-  {
-    path: 'add-product',
-    loadComponent: () => import('../components/product-form/product-form').then((m) => m.ProductForm),
-  },
-  {
-    path: 'edit-product/:id',
-    loadComponent: () => import('../components/product-form/product-form').then((m) => m.ProductForm),
   },
   {
     path: 'cart',

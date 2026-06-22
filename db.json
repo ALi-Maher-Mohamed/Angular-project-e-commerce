@@ -1,18 +1,27 @@
 {
   "users": [
     {
+      "username": "admin",
+      "password": "admin123",
+      "role": "Admin",
+      "id": "1"
+    },
+    {
       "username": "Ali Maher",
       "password": "000000",
+      "role": "Customer",
       "id": "QwDTHSEI7D8"
     },
     {
       "username": "khaled Maher",
       "password": "000000",
+      "role": "Customer",
       "id": "XGpt-0bZQvA"
     },
     {
       "username": "amr",
       "password": "123456Aa",
+      "role": "Customer",
       "id": "eD2Uy5pxwUM"
     }
   ],
@@ -21,7 +30,7 @@
       "id": "1",
       "title": "iPhone 9",
       "description": "An apple mobile which is nothing like apple",
-      "price": 549,
+      "price": 599,
       "discountPercentage": 12.96,
       "rating": 4.69,
       "stock": 5,
@@ -309,32 +318,42 @@
   ],
   "cart": [
     {
-      "productId": "5",
-      "quantity": 1,
-      "id": "QmRJ7_JjEes"
+      "productId": 1,
+      "quantity": 2,
+      "id": "lq5ymWx4TSc"
     },
     {
-      "productId": "4",
+      "productId": 4,
+      "quantity": 2,
+      "id": "4JpOkGJ66fg"
+    },
+    {
+      "productId": 5,
       "quantity": 1,
-      "id": "HICr_Y5EM3w"
+      "id": "oe9p8z9DYtE"
+    },
+    {
+      "productId": 19,
+      "quantity": 1,
+      "id": "oWTmoQhIAos"
     }
   ],
   "favorites": [
     {
-      "productId": "1",
-      "id": "ZwplLvggg6E"
+      "productId": 16,
+      "id": "DRfQtnMFWiw"
     },
     {
-      "productId": "4",
-      "id": "7TdXJIbsNqU"
+      "productId": 4,
+      "id": "nA1rP3lZ5DA"
     },
     {
-      "productId": "5",
-      "id": "Nc-xS-dhkKQ"
+      "productId": 5,
+      "id": "z6t_4oeb3Kw"
     },
     {
-      "productId": "6",
-      "id": "RF7u17R_G2k"
+      "productId": 1,
+      "id": "_VfAKg-3tj4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

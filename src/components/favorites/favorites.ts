@@ -20,10 +20,10 @@ export class Favorites {
     readonly products = this.productService.products;
 
     readonly favoriteProducts = computed(() =>
-        this.favorites().map((favorite) => this.products().find((product) => product.id === favorite.productId)).filter(Boolean),
+        this.favorites().map((favorite) => this.products().find((product) => String(product.id) === String(favorite.productId))).filter(Boolean),
     );
 
-    onRemoveFavorite(productId: number): void {
+    onRemoveFavorite(productId: number | string): void {
         this.favoriteService.removeByProductId(productId).subscribe();
     }
 }

@@ -262,7 +262,63 @@
 }
 
 :host-context(.dark) .card-image-wrapper {
-  background: #1e293b;
+  background: linear-gradient(180deg, #162032 0%, #1e2d44 100%);
+}
+
+:host-context(.dark) .favorite-badge {
+  background: rgba(22, 32, 50, 0.95);
+  color: var(--color-muted);
+}
+
+:host-context(.dark) .favorite-badge:hover,
+:host-context(.dark) .favorite-badge.active {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--color-danger);
+}
+
+:host-context(.dark) .quantity-controls {
+  background: var(--color-surface-muted);
+  border-color: var(--color-border);
+}
+
+:host-context(.dark) .qty-btn {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+:host-context(.dark) .qty-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+:host-context(.dark) .out-of-stock-text {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--color-danger);
+}
+
+:host-context(.dark) .in-stock-text {
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--color-success);
+}
+
+:host-context(.dark) .card-price {
+  color: var(--color-primary);
+}
+
+:host-context(.dark) .btn-cart {
+  color: var(--color-accent);
+}
+
+:host-context(.dark) .btn-cart:disabled {
+  color: #475569;
+}
+
+:host-context(.dark) .btn-details {
+  color: var(--color-muted);
+}
+
+:host-context(.dark) .btn-details:hover {
+  color: var(--color-text);
 }
 
 @media (max-width: 420px) {

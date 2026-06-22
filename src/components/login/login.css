@@ -43,6 +43,53 @@ label {
   font-weight: 800;
 }
 
+.role-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.role-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.role-option input[type='radio'] {
+  display: none;
+}
+
+.role-option.active {
+  border-color: var(--color-accent);
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.role-icon {
+  font-size: 28px;
+}
+
+.role-label {
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.admin-hint {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--color-accent);
+  font-size: 13px;
+  text-align: center;
+}
+
 input {
   width: 100%;
   min-height: 48px;
@@ -64,6 +111,23 @@ input:focus {
   color: var(--color-danger);
   font-size: 13px;
   font-weight: 700;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.alert-error {
+  background: #fef2f2;
+  color: var(--color-danger);
 }
 
 button {
@@ -104,4 +168,41 @@ button:disabled {
 
 .auth-link a:hover {
   color: var(--color-accent-strong);
+}
+
+:host-context(.dark) .auth-card {
+  background: rgba(22, 32, 50, 0.97);
+  border-color: var(--color-border);
+}
+
+:host-context(.dark) input {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+:host-context(.dark) .role-option {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+:host-context(.dark) .role-option.active {
+  border-color: var(--color-accent);
+  background: rgba(129, 140, 248, 0.15);
+}
+
+:host-context(.dark) .admin-hint {
+  background: rgba(129, 140, 248, 0.15);
+  color: var(--color-accent);
+}
+
+:host-context(.dark) .alert-error {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--color-danger);
+}
+
+:host-context(.dark) button:disabled {
+  background: #334155;
+  color: #64748b;
 }

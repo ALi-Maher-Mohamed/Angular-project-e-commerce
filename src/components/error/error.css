@@ -47,3 +47,7 @@
   background: var(--color-accent-strong);
   transform: translateY(-1px);
 }
+
+:host-context(.dark) .error-page {
+  background: #0f172a;
+}

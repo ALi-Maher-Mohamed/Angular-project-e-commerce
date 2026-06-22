@@ -108,6 +108,21 @@ button:disabled {
   color: var(--color-accent);
 }
 
+:host-context(.dark) .form-container {
+  background: var(--color-surface);
+}
+
+:host-context(.dark) input,
+:host-context(.dark) textarea {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+:host-context(.dark) .form-actions a {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
 @media (max-width: 680px) {
   form {
     grid-template-columns: 1fr;

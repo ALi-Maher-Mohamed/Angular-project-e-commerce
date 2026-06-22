@@ -17,6 +17,7 @@ import { FavoriteService } from '../../services/favorite.service';
 export class MainLayout {
   isDark = false;
   isLoggedIn = false;
+  isAdmin = false;
 
   private authService = inject(AuthService);
   private cartService = inject(CartService);
@@ -34,6 +35,7 @@ export class MainLayout {
   constructor() {
     this.authService.currentUser$.subscribe((user) => {
       this.isLoggedIn = user !== null;
+      this.isAdmin = user?.role === 'Admin';
     });
   }
 

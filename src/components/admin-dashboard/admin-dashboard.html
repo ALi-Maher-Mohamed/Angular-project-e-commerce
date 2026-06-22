@@ -1,0 +1,63 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <a routerLink="/admin/add-product" class="btn-add">+ Add New Product</a>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-value">{{ totalCount() }}</span>
+            <span class="stat-label">Total Products</span>
+        </div>
+        <div class="stat-card in-stock">
+            <span class="stat-value">{{ inStockCount() }}</span>
+            <span class="stat-label">In Stock</span>
+        </div>
+        <div class="stat-card out-of-stock">
+            <span class="stat-value">{{ outOfStockCount() }}</span>
+            <span class="stat-label">Out of Stock</span>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Rating</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (product of products(); track product.id) {
+                <tr [class.out-of-stock-row]="product.stock === 0">
+                    <td>
+                        <img [src]="product.thumbnail" [alt]="product.title" class="table-img" />
+                    </td>
+                    <td class="cell-title">{{ product.title }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.brand }}</td>
+                    <td class="cell-price">${{ product.price }}</td>
+                    <td>
+                        <span class="stock-badge" [class.out]="product.stock === 0">
+                            {{ product.stock === 0 ? 'Out' : product.stock }}
+                        </span>
+                    </td>
+                    <td class="cell-rating">{{ product.rating }}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a [routerLink]="['/admin/edit-product', product.id]" class="btn-edit">Edit</a>
+                            <button type="button" class="btn-delete" (click)="onDelete(product.id)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

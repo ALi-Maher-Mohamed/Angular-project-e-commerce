@@ -1,4 +1,4 @@
 export interface Favorite {
-    id: number;
-    productId: number;
+    id: number | string;
+    productId: number | string;
 }
