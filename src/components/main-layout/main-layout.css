@@ -1,75 +1,181 @@
 .layout {
   min-height: 100vh;
-  background: #f0f2f5;
-  color: #333;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .layout.dark {
-  background: #1a1a2e;
-  color: #e0e0e0;
+  --color-bg: #0f172a;
+  --color-surface: #152238;
+  --color-surface-muted: #1e293b;
+  --color-text: #e5edf7;
+  --color-muted: #a9b7ca;
+  --color-border: #26364c;
+  background: #0f172a;
 }
 
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
-  background: #2c3e50;
-  color: #fff;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 76px;
+  padding: 14px clamp(18px, 4vw, 48px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.82);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  backdrop-filter: blur(16px);
+}
+
+.layout.dark .navbar {
+  background: rgba(15, 23, 42, 0.9);
+  border-bottom-color: var(--color-border);
 }
 
 .logo {
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-primary);
+  font-size: clamp(17px, 2vw, 21px);
+  font-weight: 800;
   text-decoration: none;
+  white-space: nowrap;
+}
+
+.layout.dark .logo {
+  color: #ffffff;
+}
+
+.logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 12px 24px rgba(30, 58, 95, 0.22);
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.nav-links a {
-  color: #fff;
+.nav-links a,
+.btn-dark,
+.btn-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 13px;
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
   text-decoration: none;
-  font-weight: 500;
-}
-
-.nav-links a:hover {
-  text-decoration: underline;
-}
-
-.btn-dark {
-  padding: 8px 16px;
-  background: #9b59b6;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  background: transparent;
   cursor: pointer;
-  font-weight: 600;
+}
+
+.nav-links a:hover,
+.btn-dark:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-primary);
+}
+
+.btn-logout {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+.btn-logout:hover {
+  background: var(--color-primary-strong);
+  transform: translateY(-1px);
+}
+
+.nav-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--color-accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.cart-icon {
+  position: relative;
+  width: 17px;
+  height: 13px;
+  border: 2px solid currentColor;
+  border-top: 0;
+  border-radius: 2px 2px 5px 5px;
+}
+
+.cart-icon::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: -5px;
+  width: 7px;
+  height: 2px;
+  border-radius: 99px;
+  background: currentColor;
+  transform: rotate(-18deg);
+}
+
+.cart-icon::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: -6px;
+  height: 3px;
+  border-left: 3px solid currentColor;
+  border-right: 3px solid currentColor;
 }
 
 .main-content {
-  padding: 20px;
+  width: min(100%, 1480px);
+  margin: 0 auto;
+  padding: clamp(22px, 4vw, 48px);
 }
 
 .loading-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  background: rgba(15, 23, 42, 0.38);
+  backdrop-filter: blur(4px);
 }
 
 .spinner {
-  width: 48px;
-  height: 48px;
-  border: 4px solid #fff;
-  border-top: 4px solid #007bff;
+  width: 52px;
+  height: 52px;
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #ffffff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -82,45 +188,91 @@
 
 .toast-notification {
   position: fixed;
-  top: 16px;
-  right: 16px;
-  padding: 12px 20px;
-  border-radius: 8px;
-  color: #fff;
-  font-weight: 500;
+  top: 92px;
+  right: clamp(16px, 4vw, 36px);
   z-index: 10000;
   display: flex;
   align-items: center;
-  gap: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.3s ease;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  animation: slideIn 0.25s ease;
 }
 
 .toast-notification.error {
-  background: #dc3545;
+  background: var(--color-danger);
 }
 
 .toast-notification.success {
-  background: #28a745;
+  background: var(--color-success);
 }
 
 .toast-close {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
   padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  font-size: 20px;
   line-height: 1;
+  cursor: pointer;
 }
 
 @keyframes slideIn {
   from {
-    transform: translateX(100%);
+    transform: translateX(24px);
     opacity: 0;
   }
   to {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+@media (max-width: 860px) {
+  .navbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .nav-links a,
+  .btn-dark,
+  .btn-logout {
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .main-content {
+    padding: 18px;
+  }
+
+  .logo {
+    width: 100%;
+  }
+
+  .nav-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .nav-links a,
+  .btn-dark,
+  .btn-logout {
+    width: 100%;
+    min-height: 44px;
   }
 }

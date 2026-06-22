@@ -6,25 +6,35 @@
   }
 
   @if (message(); as msg) {
-  <div class="toast-notification" [class.error]="messageType() === 'error'" [class.success]="messageType() === 'success'">
+  <div class="toast-notification" [class.error]="messageType() === 'error'"
+    [class.success]="messageType() === 'success'">
     <span>{{ msg }}</span>
     <button class="toast-close" (click)="messageService.clear()">&times;</button>
   </div>
   }
 
   <nav class="navbar">
-    <a routerLink="/products" class="logo">Ali Maher Store</a>
+    <a routerLink="/products" class="logo">
+      <span class="logo-mark">AM</span>
+      <span>Ali Maher Store</span>
+    </a>
     <div class="nav-links">
       @if (isLoggedIn) {
-        <a routerLink="/products">Products</a>
-        <a routerLink="/add-product">Add Product</a>
-        <button type="button" class="btn-dark" (click)="toggleDark()">
-          {{ isDark ? 'Light Mode' : 'Dark Mode' }}
-        </button>
-        <button type="button" class="btn-logout" (click)="logout()">Logout</button>
+      <a routerLink="/products">Products</a>
+      <a routerLink="/cart" class="nav-cart" aria-label="Cart">
+        <span class="cart-icon" aria-hidden="true"></span>
+        <span>Cart</span>
+        <span class="nav-count">{{ cartCount() }}</span>
+      </a>
+      <a routerLink="/favorites">Favorites <span class="nav-count">{{ favoritesCount() }}</span></a>
+      <a routerLink="/add-product">Add Product</a>
+      <button type="button" class="btn-dark" (click)="toggleDark()">
+        {{ isDark ? 'Light Mode' : 'Dark Mode' }}
+      </button>
+      <button type="button" class="btn-logout" (click)="logout()">Logout</button>
       } @else {
-        <a routerLink="/login">Login</a>
-        <a routerLink="/signup">Sign Up</a>
+      <a routerLink="/login">Login</a>
+      <a routerLink="/signup">Sign Up</a>
       }
     </div>
   </nav>

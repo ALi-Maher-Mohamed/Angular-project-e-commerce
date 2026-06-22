@@ -24,25 +24,28 @@ export class ProductForm {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEdit = true;
-      const found = this.productService.getById(Number(id));
-      if (!found) {
-        this.router.navigate(['/error']);
-        return;
-      }
-      this.product = { ...found };
+      this.productService.fetchById(Number(id)).subscribe({
+        next: (product) => {
+          this.product = { ...product };
+        },
+        error: () => {
+          this.router.navigate(['/error']);
+        },
+      });
     }
   }
 
   onSubmit(form: NgForm): void {
     if (form.invalid) return;
 
-    if (this.isEdit) {
-      this.productService.update(this.product);
-    } else {
-      this.productService.add(this.product);
-    }
+    const request = this.isEdit
+      ? this.productService.update(this.product)
+      : this.productService.add(this.product);
 
-    this.router.navigate(['/products']);
+    request.subscribe({
+      next: () => this.router.navigate(['/products']),
+      error: (error) => console.error('Failed to save product', error),
+    });
   }
 
   private emptyProduct(): Product {

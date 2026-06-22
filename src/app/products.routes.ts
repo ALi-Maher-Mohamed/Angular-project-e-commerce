@@ -19,4 +19,12 @@ export const productRoutes: Routes = [
     path: 'edit-product/:id',
     loadComponent: () => import('../components/product-form/product-form').then((m) => m.ProductForm),
   },
+  {
+    path: 'cart',
+    loadComponent: () => import('../components/cart/cart').then((m) => m.Cart),
+  },
+  {
+    path: 'favorites',
+    loadComponent: () => import('../components/favorites/favorites').then((m) => m.Favorites),
+  },
 ];

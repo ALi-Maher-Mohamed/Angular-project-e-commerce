@@ -1,15 +1,19 @@
-<div class="product-card" [class.out-of-stock]="isOutOfStock" [class.bought]="isBought">
-    @if (isBought) {
-    <span class="bought-badge">Bought</span>
-    }
+<div class="product-card" [class.out-of-stock]="isOutOfStock" [class.favorited]="isFavorited"
+    [class.in-cart]="isInCart">
+    <button type="button" class="favorite-badge" [class.active]="isFavorited" (click)="toggleFavorite.emit()"
+        [attr.aria-label]="isFavorited ? 'Remove from favorites' : 'Add to favorites'">
+        ♥
+    </button>
 
     <div class="card-image-wrapper">
-        <img [src]="product.thumbnail" [alt]="product.title" class="card-img" appImageZoom />
+        <img [src]="product.thumbnail" [alt]="product.title" class="card-img" />
     </div>
 
     <div class="card-body">
-        <h5 class="card-title">{{ product.title }}</h5>
-        <p class="card-price">${{ product.price }}</p>
+        <div class="card-heading">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-price">${{ product.price }}</p>
+        </div>
 
         @if (isOutOfStock) {
         <p class="stock-status out-of-stock-text">Out Of Stock</p>
@@ -34,10 +38,9 @@
             {{ showFullDescription() ? 'Show Less' : 'See All Description' }}
         </button>
 
-        @defer (on interaction) {
         <div class="card-actions">
-            <button class="btn-buy" [disabled]="!canBuy" (click)="onBuy()">
-                Buy {{ quantity() > 1 ? '(' + quantity() + ')' : '' }}
+            <button class="btn-cart" [class.in-cart]="isInCart" [disabled]="!canAddToCart" (click)="onCartClick()">
+                {{ isInCart ? 'Remove from Cart' : 'Add to Cart' }}
             </button>
 
             <a [routerLink]="['/product', product.id]" class="btn-details">
@@ -48,10 +51,5 @@
                 Delete
             </button>
         </div>
-        } @placeholder {
-        <div class="card-actions-placeholder">
-            <span>Click to show actions</span>
-        </div>
-        }
     </div>
 </div>

@@ -1,8 +1,10 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoadingService } from '../../services/loading.service';
 import { MessageService } from '../../services/message.service';
+import { CartService } from '../../services/cart.service';
+import { FavoriteService } from '../../services/favorite.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -17,6 +19,8 @@ export class MainLayout {
   isLoggedIn = false;
 
   private authService = inject(AuthService);
+  private cartService = inject(CartService);
+  private favoriteService = inject(FavoriteService);
   private router = inject(Router);
   private loadingService = inject(LoadingService);
   readonly messageService = inject(MessageService);
@@ -24,6 +28,8 @@ export class MainLayout {
   readonly loading = this.loadingService.loading;
   readonly message = this.messageService.message;
   readonly messageType = this.messageService.type;
+  readonly cartCount = computed(() => this.cartService.cartItems().length);
+  readonly favoritesCount = computed(() => this.favoriteService.favorites().length);
 
   constructor() {
     this.authService.currentUser$.subscribe((user) => {

@@ -1,7 +1,11 @@
 <div class="products-container">
     <div class="products-header">
-        <h2>Products</h2>
-        <span class="product-count">{{ filteredProducts().length }} product(s)</span>
+        <div class="products-title">
+            <span class="eyebrow">Shop collection</span>
+            <h2>Products</h2>
+            <span class="product-count">{{ filteredProducts().length }} product(s)</span>
+        </div>
+        
     </div>
 
     <div class="products-layout">
@@ -34,19 +38,12 @@
 
         <div class="products-grid">
             @for (product of filteredProducts(); track product.id) {
-            <app-product-card [product]="product" [isBought]="isBought(product.id)"
-                (buy)="onBuy($event)" (delete)="onDelete($event)"></app-product-card>
+            <app-product-card [product]="product" [isFavorited]="isFavorited(product.id)"
+                [isInCart]="isInCart(product.id)" (addToCart)="onAddToCart($event)"
+                (removeFromCart)="onRemoveFromCart($event)" (toggleFavorite)="onToggleFavorite(product)"
+                (delete)="onDelete($event)">
+            </app-product-card>
             }
         </div>
     </div>
-
-    @defer (on interaction) {
-    <div class="total-price-bar">
-        <h3>Total Price: ${{ totalPrice() }}</h3>
-    </div>
-    } @placeholder {
-    <div class="total-price-placeholder" (click)="showTotal.set(true)">
-        <span>Click to show total price</span>
-    </div>
-    }
 </div>

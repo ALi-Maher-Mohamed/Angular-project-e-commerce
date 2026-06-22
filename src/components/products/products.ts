@@ -1,27 +1,36 @@
-import { Component, ChangeDetectionStrategy, computed, signal, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductCard } from '../product-card/product-card';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service';
+import { FavoriteService } from '../../services/favorite.service';
 import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductCard, FormsModule],
+  imports: [ProductCard, FormsModule, RouterLink],
   templateUrl: './products.html',
   styleUrl: './products.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Products {
   private productService = inject(ProductService);
+  private cartService = inject(CartService);
+  private favoriteService = inject(FavoriteService);
 
   readonly products = this.productService.products;
+  readonly cartItems = this.cartService.cartItems;
+  readonly favorites = this.favoriteService.favorites;
 
-  boughtProducts = signal<Set<number>>(new Set());
-  totalPrice = signal(0);
+  readonly cartCount = computed(() => this.cartItems().length);
+  readonly favoritesCount = computed(() => this.favorites().length);
+  readonly favoriteProductIds = computed(() => new Set(this.favorites().map((fav) => fav.productId)));
+  readonly cartProductIds = computed(() => new Set(this.cartItems().map((item) => item.productId)));
+
   selectedCategory = signal<string>('All');
   sortOrder = signal<string>('none');
-  showTotal = signal(false);
 
   readonly categories = computed(() => [...new Set(this.products().map((p) => p.category))]);
 
@@ -44,20 +53,29 @@ export class Products {
     this.selectedCategory.set(category);
   }
 
-  onBuy(event: { product: Product; quantity: number }): void {
-    const { product, quantity } = event;
-    if (product.stock < quantity) return;
-    product.stock -= quantity;
-    this.productService.update(product);
-    this.boughtProducts.update((set) => new Set(set).add(product.id));
-    this.totalPrice.update((price) => price + product.price * quantity);
+  onAddToCart(event: { product: Product; quantity: number }): void {
+    this.cartService.addToCart(event.product.id, event.quantity).subscribe();
   }
 
-  isBought(productId: number): boolean {
-    return this.boughtProducts().has(productId);
+  onRemoveFromCart(productId: number): void {
+    this.cartService.removeByProductId(productId).subscribe();
+  }
+
+  onToggleFavorite(product: Product): void {
+    this.favoriteService.toggleFavorite(product.id).subscribe();
+  }
+
+  isFavorited(productId: number): boolean {
+    return this.favoriteProductIds().has(productId);
+  }
+
+  isInCart(productId: number): boolean {
+    return this.cartProductIds().has(productId);
   }
 
   onDelete(id: number): void {
-    this.productService.delete(id);
+    this.productService.delete(id).subscribe();
+    this.cartService.removeByProductId(id).subscribe();
+    this.favoriteService.removeByProductId(id).subscribe();
   }
 }
