@@ -1,35 +1,37 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { catchError, tap } from 'rxjs/operators';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, throwError } from 'rxjs';
 import { Favorite } from '../models/favorite';
+import { MessageService } from './message.service';
 
 @Injectable({ providedIn: 'root' })
 export class FavoriteService {
     private apiUrl = 'http://localhost:3000/favorites';
     private favoritesSignal = signal<Favorite[]>([]);
+    private messageService = inject(MessageService);
 
     readonly favorites = this.favoritesSignal.asReadonly();
 
     constructor(private http: HttpClient) {
-        this.loadFavorites().subscribe({ next: () => { }, error: (error) => console.error('Failed to load favorites', error) });
+        this.loadFavorites().subscribe({ next: () => { }, error: () => { } });
     }
 
     loadFavorites(): Observable<Favorite[]> {
         return this.http.get<Favorite[]>(this.apiUrl).pipe(
             tap((favorites) => this.favoritesSignal.set(favorites)),
-            catchError((error) => {
-                console.error(error);
-                return EMPTY;
-            }),
+            catchError(() => EMPTY),
         );
     }
 
-    getByProductId(productId: number): Favorite | undefined {
-        return this.favoritesSignal().find((favorite) => favorite.productId === productId);
+    getByProductId(productId: number | string): Favorite | undefined {
+        const strId = String(productId);
+        return this.favoritesSignal().find(
+            (favorite) => String(favorite.productId) === strId,
+        );
     }
 
-    toggleFavorite(productId: number): Observable<Favorite | void> {
+    toggleFavorite(productId: number | string): Observable<Favorite | void> {
         const existing = this.getByProductId(productId);
         if (existing) {
             return this.http.delete<void>(`${this.apiUrl}/${existing.id}`).pipe(
@@ -37,22 +39,22 @@ export class FavoriteService {
                     this.favoritesSignal.update((favorites) => favorites.filter((item) => item.id !== existing.id)),
                 ),
                 catchError((error) => {
-                    console.error(error);
-                    return EMPTY;
+                    this.messageService.show(error.error?.message || 'Failed to remove from favorites');
+                    return throwError(() => error);
                 }),
             );
         }
 
-        return this.http.post<Favorite>(this.apiUrl, { productId }).pipe(
+        return this.http.post<Favorite>(this.apiUrl, { productId: String(productId) }).pipe(
             tap((favorite) => this.favoritesSignal.update((favorites) => [...favorites, favorite])),
             catchError((error) => {
-                console.error(error);
-                return EMPTY;
+                this.messageService.show(error.error?.message || 'Failed to add to favorites');
+                return throwError(() => error);
             }),
         );
     }
 
-    removeByProductId(productId: number): Observable<void> {
+    removeByProductId(productId: number | string): Observable<void> {
         const existing = this.getByProductId(productId);
         if (!existing) {
             return EMPTY;
@@ -62,8 +64,8 @@ export class FavoriteService {
                 this.favoritesSignal.update((favorites) => favorites.filter((item) => item.id !== existing.id)),
             ),
             catchError((error) => {
-                console.error(error);
-                return EMPTY;
+                this.messageService.show(error.error?.message || 'Failed to remove from favorites');
+                return throwError(() => error);
             }),
         );
     }

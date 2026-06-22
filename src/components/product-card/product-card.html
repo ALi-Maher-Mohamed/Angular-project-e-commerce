@@ -43,13 +43,15 @@
                 {{ isInCart ? 'Remove from Cart' : 'Add to Cart' }}
             </button>
 
-            <a [routerLink]="['/product', product.id]" class="btn-details">
+            <a [routerLink]="detailsLink" class="btn-details">
                 Details
             </a>
 
+            @if (authService.isAdmin) {
             <button type="button" class="btn-delete" (click)="delete.emit(product.id)">
                 Delete
             </button>
+            }
         </div>
     </div>
 </div>

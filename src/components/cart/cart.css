@@ -77,6 +77,33 @@
   outline: none;
 }
 
+:host-context(.dark) .cart-item input {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+:host-context(.dark) .btn-remove {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--color-danger);
+}
+
+:host-context(.dark) .btn-remove:hover {
+  background: var(--color-danger);
+  color: #ffffff;
+}
+
+:host-context(.dark) .empty-state {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-muted);
+}
+
+:host-context(.dark) .cart-item {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
 .cart-actions {
   display: flex;
   align-items: center;

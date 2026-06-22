@@ -14,20 +14,32 @@
   }
 
   <nav class="navbar">
-    <a routerLink="/products" class="logo">
-      <span class="logo-mark">AM</span>
-      <span>Ali Maher Store</span>
+    @if (isAdmin) {
+    <a routerLink="/admin/dashboard" class="logo">
+      <span class="logo-mark">TV</span>
+      <span>TechVault Admin</span>
     </a>
+    } @else {
+    <a routerLink="/products" class="logo">
+      <span class="logo-mark">TV</span>
+      <span>TechVault</span>
+    </a>
+    }
     <div class="nav-links">
       @if (isLoggedIn) {
-      <a routerLink="/products">Products</a>
-      <a routerLink="/cart" class="nav-cart" aria-label="Cart">
-        <span class="cart-icon" aria-hidden="true"></span>
-        <span>Cart</span>
-        <span class="nav-count">{{ cartCount() }}</span>
-      </a>
-      <a routerLink="/favorites">Favorites <span class="nav-count">{{ favoritesCount() }}</span></a>
-      <a routerLink="/add-product">Add Product</a>
+        @if (isAdmin) {
+        <a routerLink="/admin/dashboard">Dashboard</a>
+        <a routerLink="/admin/add-product">Add Product</a>
+        } @else {
+        <a routerLink="/products">Products</a>
+        <a routerLink="/cart" class="nav-cart" aria-label="Cart">
+          <span class="cart-icon" aria-hidden="true"></span>
+          <span>Cart</span>
+          <span class="nav-count">{{ cartCount() }}</span>
+        </a>
+        <a routerLink="/favorites">Favorites <span class="nav-count">{{ favoritesCount() }}</span></a>
+        }
+      <span class="user-role-badge" [class.admin]="isAdmin">{{ isAdmin ? 'Admin' : 'Customer' }}</span>
       <button type="button" class="btn-dark" (click)="toggleDark()">
         {{ isDark ? 'Light Mode' : 'Dark Mode' }}
       </button>

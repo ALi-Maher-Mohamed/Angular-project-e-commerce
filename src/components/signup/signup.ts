@@ -56,7 +56,7 @@ export class SignUp {
     if (this.signupForm.invalid) return;
 
     const { username, password } = this.signupForm.value;
-    this.authService.signup({ username, password }).subscribe({
+    this.authService.signup({ username, password, role: 'Customer' }).subscribe({
       next: () => {
         this.messageService.clear();
         this.router.navigate(['/login']);

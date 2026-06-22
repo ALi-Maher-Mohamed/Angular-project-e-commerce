@@ -139,3 +139,34 @@ button:disabled {
   font-size: 18px;
   line-height: 1;
 }
+
+:host-context(.dark) .auth-card {
+  background: rgba(22, 32, 50, 0.97);
+  border-color: var(--color-border);
+}
+
+:host-context(.dark) input {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+:host-context(.dark) .alert-error {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--color-danger);
+}
+
+:host-context(.dark) .alert-success {
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--color-success);
+}
+
+:host-context(.dark) .alert-close {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+}
+
+:host-context(.dark) button:disabled {
+  background: #334155;
+  color: #64748b;
+}

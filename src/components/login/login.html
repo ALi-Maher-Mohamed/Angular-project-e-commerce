@@ -2,10 +2,32 @@
   <div class="auth-card">
     <h2>Login</h2>
 
+    @if (errorMessage) {
+    <div class="alert alert-error">
+      {{ errorMessage }}
+    </div>
+    }
+
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
+        <label for="role">Login as</label>
+        <div class="role-selector">
+          <label class="role-option" [class.active]="selectedRole === 'Customer'">
+            <input type="radio" formControlName="role" value="Customer" />
+            <span class="role-icon">👤</span>
+            <span class="role-label">Customer</span>
+          </label>
+          <label class="role-option" [class.active]="selectedRole === 'Admin'">
+            <input type="radio" formControlName="role" value="Admin" />
+            <span class="role-icon">🔑</span>
+            <span class="role-label">Admin</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="username">Username</label>
-        <input id="username" formControlName="username" placeholder="Enter username" />
+        <input id="username" formControlName="username" placeholder="Enter username" (input)="clearError()" />
         @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
           <small class="error">Username is required</small>
         }
@@ -13,13 +35,21 @@
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" placeholder="Enter password" />
+        <input id="password" type="password" formControlName="password" placeholder="Enter password" (input)="clearError()" />
         @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
           <small class="error">Password is required</small>
         }
       </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      @if (selectedRole === 'Admin') {
+      <div class="admin-hint">
+        <strong>Admin Account:</strong> admin / admin123
+      </div>
+      }
+
+      <button type="submit" [disabled]="loginForm.invalid">
+        {{ selectedRole === 'Admin' ? 'Login as Admin' : 'Login as Customer' }}
+      </button>
     </form>
 
     <p class="auth-link">Don't have an account? <a routerLink="/signup">Sign Up</a></p>

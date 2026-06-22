@@ -30,11 +30,12 @@ export class ProductService {
     );
   }
 
-  getById(id: number): Product | undefined {
-    return this.productsSignal().find((product) => product.id === id);
+  getById(id: number | string): Product | undefined {
+    const strId = String(id);
+    return this.productsSignal().find((product) => String(product.id) === strId);
   }
 
-  fetchById(id: number): Observable<Product> {
+  fetchById(id: number | string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
@@ -54,11 +55,14 @@ export class ProductService {
     );
   }
 
-  delete(id: number): Observable<void> {
+  delete(id: number | string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      tap(() =>
-        this.productsSignal.update((products) => products.filter((product) => product.id !== id)),
-      ),
+      tap(() => {
+        const strId = String(id);
+        this.productsSignal.update((products) =>
+          products.filter((product) => String(product.id) !== strId),
+        );
+      }),
     );
   }
 }

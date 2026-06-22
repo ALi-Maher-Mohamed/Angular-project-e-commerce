@@ -17,22 +17,25 @@ export class Cart {
     private productService = inject(ProductService);
 
     readonly cartItems = this.cartService.cartItems;
-    readonly products = this.productService.products;
+
+    getProduct(productId: number | string) {
+        return this.productService.getById(productId);
+    }
 
     readonly totalPrice = computed(() =>
         this.cartItems().reduce((sum, item) => {
-            const product = this.productService.getById(item.productId);
+            const product = this.getProduct(item.productId);
             return sum + (product ? product.price * item.quantity : 0);
         }, 0),
     );
 
-    onQuantityChange(itemId: number, quantity: number): void {
-        const item = this.cartItems().find((current) => current.id === itemId);
+    onQuantityChange(itemId: number | string, quantity: number): void {
+        const item = this.cartItems().find((current) => String(current.id) === String(itemId));
         if (!item || quantity < 1) return;
         this.cartService.updateQuantity({ ...item, quantity }).subscribe();
     }
 
-    onRemove(itemId: number): void {
+    onRemove(itemId: number | string): void {
         this.cartService.remove(itemId).subscribe();
     }
 }

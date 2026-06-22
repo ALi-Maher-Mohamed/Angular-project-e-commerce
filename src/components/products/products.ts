@@ -2,15 +2,15 @@ import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@a
 import { Product } from '../../models/product';
 import { ProductCard } from '../product-card/product-card';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { FavoriteService } from '../../services/favorite.service';
 import { ProductService } from '../../services/product.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductCard, FormsModule, RouterLink],
+  imports: [ProductCard, FormsModule],
   templateUrl: './products.html',
   styleUrl: './products.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,6 +19,7 @@ export class Products {
   private productService = inject(ProductService);
   private cartService = inject(CartService);
   private favoriteService = inject(FavoriteService);
+  readonly authService = inject(AuthService);
 
   readonly products = this.productService.products;
   readonly cartItems = this.cartService.cartItems;
@@ -26,8 +27,8 @@ export class Products {
 
   readonly cartCount = computed(() => this.cartItems().length);
   readonly favoritesCount = computed(() => this.favorites().length);
-  readonly favoriteProductIds = computed(() => new Set(this.favorites().map((fav) => fav.productId)));
-  readonly cartProductIds = computed(() => new Set(this.cartItems().map((item) => item.productId)));
+  readonly favoriteProductIds = computed(() => new Set(this.favorites().map((fav) => String(fav.productId))));
+  readonly cartProductIds = computed(() => new Set(this.cartItems().map((item) => String(item.productId))));
 
   selectedCategory = signal<string>('All');
   sortOrder = signal<string>('none');
@@ -49,6 +50,10 @@ export class Products {
     return result;
   });
 
+  get detailRoute(): string {
+    return this.authService.isAdmin ? '/admin/product' : '/product';
+  }
+
   filterByCategory(category: string): void {
     this.selectedCategory.set(category);
   }
@@ -57,7 +62,7 @@ export class Products {
     this.cartService.addToCart(event.product.id, event.quantity).subscribe();
   }
 
-  onRemoveFromCart(productId: number): void {
+  onRemoveFromCart(productId: number | string): void {
     this.cartService.removeByProductId(productId).subscribe();
   }
 
@@ -65,15 +70,15 @@ export class Products {
     this.favoriteService.toggleFavorite(product.id).subscribe();
   }
 
-  isFavorited(productId: number): boolean {
-    return this.favoriteProductIds().has(productId);
+  isFavorited(productId: number | string): boolean {
+    return this.favoriteProductIds().has(String(productId));
   }
 
-  isInCart(productId: number): boolean {
-    return this.cartProductIds().has(productId);
+  isInCart(productId: number | string): boolean {
+    return this.cartProductIds().has(String(productId));
   }
 
-  onDelete(id: number): void {
+  onDelete(id: number | string): void {
     this.productService.delete(id).subscribe();
     this.cartService.removeByProductId(id).subscribe();
     this.favoriteService.removeByProductId(id).subscribe();

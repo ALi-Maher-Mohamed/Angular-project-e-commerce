@@ -115,6 +115,10 @@
   color: #ffffff;
 }
 
+:host-context(.dark) .btn-remove {
+  background: rgba(254, 242, 242, 0.12);
+}
+
 @media (max-width: 640px) {
   .favorites-header {
     align-items: stretch;

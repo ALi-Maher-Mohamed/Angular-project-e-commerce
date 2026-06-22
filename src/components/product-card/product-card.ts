@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { Product } from '../../models/product';
 import { ShortDescriptionPipe } from '../../pipes/short-description.pipe';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-card',
@@ -15,13 +16,19 @@ export class ProductCard {
   @Input() product!: Product;
   @Input() isFavorited = false;
   @Input() isInCart = false;
+  @Input() detailRoute: string = '/product';
   @Output() addToCart = new EventEmitter<{ product: Product; quantity: number }>();
-  @Output() removeFromCart = new EventEmitter<number>();
+  @Output() removeFromCart = new EventEmitter<number | string>();
   @Output() toggleFavorite = new EventEmitter<void>();
-  @Output() delete = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<number | string>();
 
+  readonly authService = inject(AuthService);
   showFullDescription = signal(false);
   quantity = signal(1);
+
+  get detailsLink(): string[] {
+    return [this.detailRoute, String(this.product.id)];
+  }
 
   onCartClick(): void {
     if (this.isInCart) {

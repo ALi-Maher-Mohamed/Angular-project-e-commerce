@@ -1,8 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-form',
@@ -16,17 +17,24 @@ export class ProductForm {
   isEdit = false;
   product: Product = this.emptyProduct();
 
-  constructor(
-    private productService: ProductService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {
+  private productService = inject(ProductService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
+
+  get cancelLink(): string {
+    return this.authService.isAdmin ? '/admin/dashboard' : '/products';
+  }
+
+  constructor() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEdit = true;
-      this.productService.fetchById(Number(id)).subscribe({
+      this.productService.fetchById(id).subscribe({
         next: (product) => {
           this.product = { ...product };
+          this.cdr.markForCheck();
         },
         error: () => {
           this.router.navigate(['/error']);
@@ -43,7 +51,7 @@ export class ProductForm {
       : this.productService.add(this.product);
 
     request.subscribe({
-      next: () => this.router.navigate(['/products']),
+      next: () => this.router.navigate([this.cancelLink]),
       error: (error) => console.error('Failed to save product', error),
     });
   }

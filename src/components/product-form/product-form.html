@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h2>{{ isEdit ? 'Edit Product (PUT)' : 'Add Product (POST)' }}</h2>
+  <h2>{{ isEdit ? 'Edit Product' : 'Add Product' }}</h2>
 
   <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
     <label>
@@ -41,7 +41,7 @@
       <button type="submit" [disabled]="productForm.invalid">
         {{ isEdit ? 'Update' : 'Create' }}
       </button>
-      <a routerLink="/products">Cancel</a>
+      <a [routerLink]="cancelLink">Cancel</a>
     </div>
   </form>
 </div>

@@ -39,7 +39,8 @@
         <div class="products-grid">
             @for (product of filteredProducts(); track product.id) {
             <app-product-card [product]="product" [isFavorited]="isFavorited(product.id)"
-                [isInCart]="isInCart(product.id)" (addToCart)="onAddToCart($event)"
+                [isInCart]="isInCart(product.id)" [detailRoute]="detailRoute"
+                (addToCart)="onAddToCart($event)"
                 (removeFromCart)="onRemoveFromCart($event)" (toggleFavorite)="onToggleFavorite(product)"
                 (delete)="onDelete($event)">
             </app-product-card>
